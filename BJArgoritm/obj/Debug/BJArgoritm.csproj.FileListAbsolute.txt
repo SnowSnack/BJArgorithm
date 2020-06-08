@@ -1,0 +1,7 @@
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\bin\Debug\BJArgoritm.exe.config
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\bin\Debug\BJArgoritm.exe
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\bin\Debug\BJArgoritm.pdb
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.csprojAssemblyReference.cache
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.csproj.CoreCompileInputs.cache
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.exe
+C:\Users\SNCL\source\repos\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.pdb
