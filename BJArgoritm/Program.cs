@@ -1,41 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
-namespace BJArgoritm
+class Program
 {
-    class Program
+    public void Solution()
     {
-        public void Solution()
+        string input        = Console.ReadLine();
+        string upperInput   = input.ToUpper();
+
+        Dictionary<char, int> upperDictionary = new Dictionary<char, int>();
+
+        List<char>  keys;
+        List<int>   values;
+        char        answer;
+        int         answerIndex;
+
+        for(int i=0; i<upperInput.Length; i++)
         {
-            int standard = int.Parse(Console.ReadLine());
-            
-            bool isTrue()
-            {
-                return ((standard <= 10000) && (standard >= 1));
-            }
+            char toAddKey = upperInput[i];
 
-            while (!isTrue())
-            {
-                standard = int.Parse(Console.ReadLine());
-            }
-
-            int answer=0;
-            for(int i=1; i<=standard; i++)
-            {
-                answer += i;
-            }
-
-            Console.WriteLine(answer);
-            Console.ReadLine();
+            if (upperDictionary.ContainsKey(toAddKey))
+                upperDictionary[toAddKey]++;
+            else
+                upperDictionary.Add(toAddKey, 1);
         }
         
-        static void Main(string[] args)
-        { 
-            Program program = new Program();
-            program.Solution();
+        keys = upperDictionary.Keys.ToList<char>();
+        values = upperDictionary.Values.ToList<int>();
+        answerIndex = 0;
+
+        if (keys.Count > 0)
+        {
+            for (int i = 1; i < keys.Count; i++)
+            {
+                if (upperDictionary[keys[i]] > upperDictionary[keys[i - 1]])
+                    answerIndex = i;
+                else
+                    answerIndex = i - 1;
+            }
         }
+        else
+        {
+            answerIndex = 0;
+        }
+
+        answer = keys[answerIndex];
+        
+        for (int i = 0; i < values.Count; i++)
+        {
+            if (!i.Equals(answerIndex))
+            {
+                if (values[answerIndex].Equals(values[i]))
+                {
+                    answer = '?';
+                    break;
+                }
+            }
+        }
+
+        Console.WriteLine(answer);
+    }
+    public static void Main(string[] args)
+    {
+        Program program = new Program();
+        program.Solution();
+        return;
     }
 }
