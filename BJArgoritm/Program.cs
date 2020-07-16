@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Schema;
+using static System.Console;
 
 class Program
 {
     public void Solution()
     {
-        string[] inputs = Console.ReadLine().Split(' ');
-
-        List<int> list = new List<int>();
-
-        for(int i=0;i<inputs.Length; i++)
+        string input = ReadLine();
+        Dictionary<char, bool> groupDic = new Dictionary<char, bool>();
+        for (int i = 0; i < input.Length-1; i++)
         {
-            inputs[i].ToArray().Reverse().ToArray();
+            char toInspection = input[i];
+            if (groupDic.ContainsKey(toInspection))
+            {
+                if(toInspection.Equals(input[i+1]))
+                    groupDic[toInspection] = false;
+
+            }
+            else
+                groupDic.Add(toInspection, true);
         }
 
-        int answer = inputs.Length;
-
-        Console.WriteLine(answer);
+        WriteLine(input.Length);
     }
     public static void Main(string[] args)
     {
