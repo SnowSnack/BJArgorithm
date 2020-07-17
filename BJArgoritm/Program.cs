@@ -1,31 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using static System.Console;
 
 class Program
 {
     public void Solution()
     {
-        string input = ReadLine();
-        Dictionary<char, bool> groupDic = new Dictionary<char, bool>();
-        for (int i = 0; i < input.Length-1; i++)
+        int count = int.Parse(ReadLine());
+        
+        string  input;
+        int     sum = 0;
+        
+        char toInspection = '\'';
+        char beforeChar;
+
+        Dictionary<char, bool> isGroupDic = new Dictionary<char, bool>();
+
+        for (int j = 0; j < count; j++)
         {
-            char toInspection = input[i];
-            if (groupDic.ContainsKey(toInspection))
+            input = ReadLine();
+            
+            for (int i = 0; i < input.Length - 1; i++)
             {
-                if(toInspection.Equals(input[i+1]))
-                    groupDic[toInspection] = false;
+                
+                
+                if (i.Equals(0))
+                {
+                    beforeChar = toInspection;
+                }
+                else
+                {
+                    beforeChar = input[i - 1];
+                }
 
+                toInspection = input[i];
+
+                if (isGroupDic.ContainsKey(toInspection))
+                {
+                    if (!toInspection.Equals(beforeChar))
+                    {
+                        if (isGroupDic[toInspection].Equals(true))
+                        {
+                            isGroupDic[toInspection] = false;
+                            sum--;
+                        }
+                    }
+                }
+                else
+                {
+                    isGroupDic.Add(toInspection, true);
+                    sum++;
+                }
             }
-            else
-                groupDic.Add(toInspection, true);
         }
-
-        WriteLine(input.Length);
+        WriteLine(sum);
+        ReadLine();
     }
     public static void Main(string[] args)
     {
