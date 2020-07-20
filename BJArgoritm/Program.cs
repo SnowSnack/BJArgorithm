@@ -5,54 +5,42 @@ class Program
 {
     public void Solution()
     {
-        int count = int.Parse(ReadLine());
-        
-        string  input;
-        int     sum = 0;
-        
-        char toInspection = '\'';
-        char beforeChar;
+        int input = int.Parse(ReadLine());
 
-        Dictionary<char, bool> isGroupDic = new Dictionary<char, bool>();
 
-        for (int j = 0; j < count; j++)
+        int fiveQuotient = input / 5;
+       
+
+        int tmp = input%5;
+        int answer = 0;
+
+        if (input.Equals(0))
         {
-            input = ReadLine();
-            
-            for (int i = 0; i < input.Length - 1; i++)
-            {
-                
-                
-                if (i.Equals(0))
-                {
-                    beforeChar = toInspection;
-                }
-                else
-                {
-                    beforeChar = input[i - 1];
-                }
-
-                toInspection = input[i];
-
-                if (isGroupDic.ContainsKey(toInspection))
-                {
-                    if (!toInspection.Equals(beforeChar))
-                    {
-                        if (isGroupDic[toInspection].Equals(true))
-                        {
-                            isGroupDic[toInspection] = false;
-                            sum--;
-                        }
-                    }
-                }
-                else
-                {
-                    isGroupDic.Add(toInspection, true);
-                    sum++;
-                }
-            }
+            WriteLine(0);
+            ReadLine();
+            return;
         }
-        WriteLine(sum);
+        for (int i = fiveQuotient; i >= 0; i--)
+        {
+            if(!i.Equals(fiveQuotient))
+                tmp += 5;
+            WriteLine(i + " : "+tmp);
+            if ((tmp % 3).Equals(0))
+            {
+                answer = i + tmp/ 3;
+                break;
+            }
+            else
+                continue;
+        }
+
+        if (answer.Equals(0))//답이 안나왓다면
+            answer = -1;
+
+        WriteLine(answer);
+
+
+        ReadLine();
         ReadLine();
     }
     public static void Main(string[] args)
