@@ -5,3 +5,9 @@ C:\Users\SNCL\Desktop\STUDY\GitHub\BJArgoritm\BJArgoritm\obj\Debug\BJArgorithm.c
 C:\Users\SNCL\Desktop\STUDY\GitHub\BJArgoritm\BJArgoritm\obj\Debug\BJArgorithm.csproj.CoreCompileInputs.cache
 C:\Users\SNCL\Desktop\STUDY\GitHub\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.exe
 C:\Users\SNCL\Desktop\STUDY\GitHub\BJArgoritm\BJArgoritm\obj\Debug\BJArgoritm.pdb
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\obj\Debug\BJArgorithm.csprojAssemblyReference.cache
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\obj\Debug\BJArgoritm.exe
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\obj\Debug\BJArgoritm.pdb
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\bin\Debug\BJArgoritm.exe.config
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\bin\Debug\BJArgoritm.exe
+C:\Users\crazy\OneDrive\Desktop\STUDY\GitHub\BJArgorithm\BJArgoritm\bin\Debug\BJArgoritm.pdb

@@ -9,32 +9,62 @@ class Program
     {
 
         int countInput = int.Parse(ReadLine());
-        string[] inputs  = ReadLine().Split(' ');
-        int[] values = new int[inputs.Length];
-        string answer = 0;
-        
-        for(int i=0; i<inputs.Length; i++)
+        string[] inputs;
+        int[] values;
+        string answer;
+
+        int height;
+        int width;
+        int order;
+
+        int y;
+        int x;
+        int over=0;
+
+        string tmp;
+
+        for (int i=0; i<countInput; i++)
         {
-            values[i] = int.Parse(inputs[i]);
-        }
-
-        int height = values[0];
-        int width = values[1];
-        int order = values[2];
-
-        int y = 0;
-        int x = 0;
-        int orderTmp = 0;
-
-        for(int i=0; i<width; i++)
-        {
-            for(int j=0; j<height; j++)
+            inputs = ReadLine().Split(' ');
+            values = new int[inputs.Length];
+            
+            for (int j = 0; j < inputs.Length; j++)
             {
-                x++;
-                //order--;
+                values[j] = int.Parse(inputs[j]);
             }
-        }
 
+            height = values[0];
+            width = values[1];
+            order = values[2];
+
+            if (height < 1 || width > 99 || order > height * width)
+                return;
+
+            if ((order % width).Equals(0))
+                y = order / height;
+            else
+                y = order / height + 1;
+            
+            if (y > width)
+            {
+                y %= width;
+                over+= y/width;
+            }
+            
+            x = order % height + over;
+
+            if (x.Equals(0))
+                x = height;
+
+            if (y < 10)
+                tmp = "0";
+            else
+                tmp = "";
+
+            answer = x+ tmp + y;
+            WriteLine(answer);
+            over = 0;
+        }
     }
     public static void Main(string[] args)
     {
