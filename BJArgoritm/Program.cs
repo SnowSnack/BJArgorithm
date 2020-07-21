@@ -1,47 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Markup;
 using static System.Console;
 
 class Program
 {
     public void Solution()
     {
-        int input = int.Parse(ReadLine());
 
-
-        int fiveQuotient = input / 5;
-       
-
-        int tmp = input%5;
-        int answer = 0;
-
-        if (input.Equals(0))
+        int countInput = int.Parse(ReadLine());
+        string[] inputs  = ReadLine().Split(' ');
+        int[] values = new int[inputs.Length];
+        string answer = 0;
+        
+        for(int i=0; i<inputs.Length; i++)
         {
-            WriteLine(0);
-            ReadLine();
-            return;
+            values[i] = int.Parse(inputs[i]);
         }
-        for (int i = fiveQuotient; i >= 0; i--)
+
+        int height = values[0];
+        int width = values[1];
+        int order = values[2];
+
+        int y = 0;
+        int x = 0;
+        int orderTmp = 0;
+
+        for(int i=0; i<width; i++)
         {
-            if(!i.Equals(fiveQuotient))
-                tmp += 5;
-            WriteLine(i + " : "+tmp);
-            if ((tmp % 3).Equals(0))
+            for(int j=0; j<height; j++)
             {
-                answer = i + tmp/ 3;
-                break;
+                x++;
+                //order--;
             }
-            else
-                continue;
         }
 
-        if (answer.Equals(0))//답이 안나왓다면
-            answer = -1;
-
-        WriteLine(answer);
-
-
-        ReadLine();
-        ReadLine();
     }
     public static void Main(string[] args)
     {
