@@ -5,65 +5,40 @@ using static System.Console;
 
 class Program
 {
+    int[,] array;
+    public int Method(int _k, int _n)
+    {
+        int sum = 0;
+        if (_k.Equals(0))
+        {
+            return _n;
+        }
+            
+        for(int i=1; i<=_n; i++)
+        {
+            sum += Method(_k-1, i);
+        }
+        
+        return sum;
+    }
     public void Solution()
     {
-
-        int countInput = int.Parse(ReadLine());
-        string[] inputs;
-        int[] values;
-        string answer;
-
-        int height;
-        int width;
-        int order;
-
-        int y;
-        int x;
-        int over=0;
-
-        string tmp;
-
-        for (int i=0; i<countInput; i++)
+        int inputCount = int.Parse(ReadLine());
+        int k=0, n=0;
+        
+        for(int i=0;i<inputCount; i++)
         {
-            inputs = ReadLine().Split(' ');
-            values = new int[inputs.Length];
-            
-            for (int j = 0; j < inputs.Length; j++)
+            for(int j=0;j<2;j++)
             {
-                values[j] = int.Parse(inputs[j]);
+                if (j.Equals(0))
+                    k = int.Parse(ReadLine());
+                else
+                    n = int.Parse(ReadLine());
             }
+            if(i.Equals(0))
+                array = new int[k,n];
 
-            height = values[0];
-            width = values[1];
-            order = values[2];
-
-            if (height < 1 || width > 99 || order > height * width)
-                return;
-
-            if ((order % width).Equals(0))
-                y = order / height;
-            else
-                y = order / height + 1;
-            
-            if (y > width)
-            {
-                y %= width;
-                over+= y/width;
-            }
-            
-            x = order % height + over;
-
-            if (x.Equals(0))
-                x = height;
-
-            if (y < 10)
-                tmp = "0";
-            else
-                tmp = "";
-
-            answer = x+ tmp + y;
-            WriteLine(answer);
-            over = 0;
+            WriteLine(Method(k, n));
         }
     }
     public static void Main(string[] args)
