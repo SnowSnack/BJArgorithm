@@ -1,45 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Markup;
 using static System.Console;
 
 class Program
 {
-    int[,] array;
-    public int Method(int _k, int _n)
+
+    public int Method(int count, int answer, int origin, int distance)
     {
-        int sum = 0;
-        if (_k.Equals(0))
+        answer++;
+        for (int i = 0; i < count; i++)
         {
-            return _n;
+            origin++;
+            if (origin == distance)
+            {
+                WriteLine(answer);
+                return -1;
+            }
         }
-            
-        for(int i=1; i<=_n; i++)
-        {
-            sum += Method(_k-1, i);
-        }
-        
-        return sum;
+        return origin;
     }
     public void Solution()
     {
-        int inputCount = int.Parse(ReadLine());
-        int k=0, n=0;
-        
-        for(int i=0;i<inputCount; i++)
-        {
-            for(int j=0;j<2;j++)
-            {
-                if (j.Equals(0))
-                    k = int.Parse(ReadLine());
-                else
-                    n = int.Parse(ReadLine());
-            }
-            if(i.Equals(0))
-                array = new int[k,n];
+        int countInput = int.Parse(ReadLine());
 
-            WriteLine(Method(k, n));
+        string[] inputs;
+        int[] values;
+
+        int distance;
+        int count;
+        int answer;
+        int origin;
+        for (int j=0; j<countInput; j++)
+        {
+            inputs = ReadLine().Split(' ');
+            values = new int[inputs.Length];
+
+            distance = 0;
+
+            count = 1;
+            answer = 0;
+            origin = 0;
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                values[i] = int.Parse(inputs[i]);
+            }
+
+            distance = values[1] - values[0];
+
+            while (true)
+            {
+                origin = Method(count, answer++, origin, distance);
+                if (origin.Equals(-1))
+                    break;
+                origin = Method(count, answer++, origin, distance);
+                if (origin.Equals(-1))
+                    break;
+                count++;
+            }
         }
+        
     }
     public static void Main(string[] args)
     {
