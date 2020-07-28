@@ -1,67 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Markup;
 using static System.Console;
 
 class Program
 {
-
-    public int Method(int count, int answer, int origin, int distance)
-    {
-        answer++;
-        for (int i = 0; i < count; i++)
-        {
-            origin++;
-            if (origin == distance)
-            {
-                WriteLine(answer);
-                return -1;
-            }
-        }
-        return origin;
-    }
     public void Solution()
     {
         int countInput = int.Parse(ReadLine());
 
-        string[] inputs;
-        int[] values;
+        double remain;
+        int x=0, y =0;
 
-        int distance;
-        int count;
-        int answer;
-        int origin;
         for (int j=0; j<countInput; j++)
         {
-            inputs = ReadLine().Split(' ');
-            values = new int[inputs.Length];
+            string[] inputs = ReadLine().Split(' ');
 
-            distance = 0;
-
-            count = 1;
-            answer = 0;
-            origin = 0;
-
+            if (inputs.Length < 2)
+                return;
+            WriteLine("lenth" + inputs.Length);
             for (int i = 0; i < inputs.Length; i++)
             {
-                values[i] = int.Parse(inputs[i]);
+                if(i.Equals(0))
+                    x = int.Parse(inputs[i]);
+                else
+                    y = int.Parse(inputs[i]);
             }
 
-            distance = values[1] - values[0];
-
-            while (true)
+            for (int i = 1; i < i + 1; i++)
             {
-                origin = Method(count, answer++, origin, distance);
-                if (origin.Equals(-1))
+                if (i * i >= y - x)
+                {
+                    if ((--i).Equals(0))
+                    {
+                        WriteLine(1);
+                    }
+                    remain = Math.Ceiling((double)(y-x - i * i)/i);
+                    WriteLine(i*2-1+remain);
                     break;
-                origin = Method(count, answer++, origin, distance);
-                if (origin.Equals(-1))
-                    break;
-                count++;
-            }
+                }
+            }              
         }
-        
     }
     public static void Main(string[] args)
     {
