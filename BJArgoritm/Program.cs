@@ -1,19 +1,17 @@
 ﻿using System;
 using static System.Console;
-using System.Linq;
-
+using System.Text;
 class Program
 {
-    public void Solution()
+    static void Main(string[] args)
     {
-        double r = double.Parse(ReadLine());
-        WriteLine(string.Format("{0:#.000000}",r * r * Math.PI));
-        WriteLine(string.Format("{0:#.000000}", r*r*2f));
-    }
-    public static void Main(string[] args)
-    {
-        Program program = new Program();
-        program.Solution();
+        StringBuilder sb = new StringBuilder();
+        WriteLine(StarAction(short.Parse(ReadLine()), ref sb));
         return;
+    }
+    static StringBuilder StarAction(short _count, ref StringBuilder _sb)
+    {
+
+        return _sb;
     }
 }
