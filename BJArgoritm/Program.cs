@@ -1,62 +1,77 @@
 ﻿using System;
 using static System.Console;
+using System.Text;
 
 class Program
 {
-    public int Factorial(short _num)
+
+    public char[,] Init(int _max)
     {
-        if (_num > 0)
-            return Factorial((short) (_num - 1)) * _num;
-        return 1;
-    }
-    public int Fivonacii(short _num)
-    {
-        if (_num > 1)
+        char[,] mat = new char[_max, _max];
+        
+        for(int i=0; i<_max; i++)
         {
-            return Fivonacii((short) (_num - 1)) + Fivonacii((short) (_num - 2));
+            for(int j=0; j<_max; j++)
+            {
+                mat[j, i] = ' ';
+            }
         }
-        return _num;
+        return mat;
     }
 
-    void solve(ref char[,] _mat, int _y, int _x, int _num)
+    public void FillStar(ref char[,]_mat, int _x, int _y, int _DrawSize)
     {
-        if (_num.Equals(1))
+        if(_DrawSize.Equals(1))
         {
-            WriteLine("num = " + _num + " mat[{0}][{1}]", _y, _x);
-            _mat[_y, _x] = '*';
+            _mat[_x, _y] = '*';
             return;
         }
 
-        int divTmp = _num / 3;
-        for (int i = 0; i < 3; i++)
+        int nextDrawSize = _DrawSize / 3;
+
+
+        for(int i=0; i<3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for(int j=0; j<3; j++)
             {
-                if (i == 1 && j == 1)
+                int nextX = _x + j * nextDrawSize;
+                int nextY = _y + i * nextDrawSize;
+                if(i.Equals(1)&&j.Equals(1))
                 {
-                    WriteLine("in if = num = " + _num + " mat[{0}][{1}]", _y + (i * divTmp), _x + (j * divTmp));
+                    
                 }
                 else
-                    solve(ref _mat, _y + (i * divTmp), _x + (j * divTmp), divTmp);
+                {
+                    FillStar(ref _mat, nextX, nextY, nextDrawSize);
+                }
             }
         }
-    }
 
+    }
 
     public void Solution()
     {
-        short input = short.Parse(ReadLine());
-        char[,] mat = new char[2000, 2000];
-        solve(ref mat, 0, 0, input);
+        int input = int.Parse(ReadLine());
 
+        char[,] mat = Init(input);
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < input; i++)
+        FillStar(ref mat, 0, 0, input);
+        
+        for(int i=0; i<input; i++)
         {
-            for (int j = 0; j < input; j++)
+            for(int j=0; j<input; j++)
             {
-                Write(mat[i, j]);
+                sb.Append(mat[j, i]);
             }
-            WriteLine();
+            sb.AppendLine();
         }
-
+        WriteLine(sb);
     }
+
+    public static void Main()
+    {
+        Program program = new Program();
+        program.Solution();
+    }
+}
