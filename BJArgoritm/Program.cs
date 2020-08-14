@@ -2,76 +2,28 @@
 using static System.Console;
 using System.Text;
 
-class Program
+namespace _191009_backjoon_hanoi
 {
-
-    public char[,] Init(int _max)
+    class Program
     {
-        char[,] mat = new char[_max, _max];
-        
-        for(int i=0; i<_max; i++)
+        static void Hanoi(StringBuilder _sb, int _disks, int _from, int _to)
         {
-            for(int j=0; j<_max; j++)
-            {
-                mat[j, i] = ' ';
-            }
-        }
-        return mat;
-    }
+            if (_disks.Equals(0))
+                return;
 
-    public void FillStar(ref char[,]_mat, int _x, int _y, int _DrawSize)
-    {
-        if(_DrawSize.Equals(1))
-        {
-            _mat[_x, _y] = '*';
-            return;
+            int spare = 6 - _from - _to;
+
+            Hanoi(_sb, _disks - 1, _from, spare);
+            _sb.AppendFormat("{0} {1}\n", _from, _to);
+            Hanoi(_sb, _disks - 1, spare, _to);
         }
 
-        int nextDrawSize = _DrawSize / 3;
-
-
-        for(int i=0; i<3; i++)
+        static void Main(string[] args)
         {
-            for(int j=0; j<3; j++)
-            {
-                int nextX = _x + j * nextDrawSize;
-                int nextY = _y + i * nextDrawSize;
-                if(i.Equals(1)&&j.Equals(1))
-                {
-                    
-                }
-                else
-                {
-                    FillStar(ref _mat, nextX, nextY, nextDrawSize);
-                }
-            }
+            int disks = int.Parse(ReadLine());
+            StringBuilder sb = new StringBuilder((Math.Pow(2,disks)-1).ToString()+"\n");
+            Hanoi(sb, disks, 1, 3);
+            WriteLine(sb);
         }
-
-    }
-
-    public void Solution()
-    {
-        int input = int.Parse(ReadLine());
-
-        char[,] mat = Init(input);
-        StringBuilder sb = new StringBuilder();
-
-        FillStar(ref mat, 0, 0, input);
-        
-        for(int i=0; i<input; i++)
-        {
-            for(int j=0; j<input; j++)
-            {
-                sb.Append(mat[j, i]);
-            }
-            sb.AppendLine();
-        }
-        WriteLine(sb);
-    }
-
-    public static void Main()
-    {
-        Program program = new Program();
-        program.Solution();
     }
 }
