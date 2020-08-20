@@ -1,29 +1,40 @@
 ﻿using System;
 using static System.Console;
 using System.Text;
+using System.Linq;
+using System.Collections.Generic;
 
-namespace _191009_backjoon_hanoi
+class Program
 {
-    class Program
+    void Solution()
     {
-        static void Hanoi(StringBuilder _sb, int _disks, int _from, int _to)
+        string input =ReadLine();
+        int intInput = int.Parse(input);
+        int num;
+        int sum;
+        
+        for(int i=1; i<1000000; i++)
         {
-            if (_disks.Equals(0))
+            num = i;
+            sum = num;
+            while(num!=0)
+            { 
+                sum += num % 10;
+                num /= 10;
+            }
+            if (sum.Equals(intInput))
+            {
+                WriteLine(i);
                 return;
-
-            int spare = 6 - _from - _to;
-
-            Hanoi(_sb, _disks - 1, _from, spare);
-            _sb.AppendFormat("{0} {1}\n", _from, _to);
-            Hanoi(_sb, _disks - 1, spare, _to);
+            }
+                
         }
 
-        static void Main(string[] args)
-        {
-            int disks = int.Parse(ReadLine());
-            StringBuilder sb = new StringBuilder((Math.Pow(2,disks)-1).ToString()+"\n");
-            Hanoi(sb, disks, 1, 3);
-            WriteLine(sb);
-        }
+        WriteLine(0);
+    }
+    static void Main(string[] args)
+    {
+        Program program = new Program();
+        program.Solution();
     }
 }
