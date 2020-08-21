@@ -3,35 +3,36 @@ using static System.Console;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 class Program
 {
     void Solution()
     {
-        string input =ReadLine();
-        int intInput = int.Parse(input);
-        int num;
-        int sum;
-        
-        for(int i=1; i<1000000; i++)
+        int[] count = ReadLine().Split(' ').Select(a => int.Parse(a)).ToArray();
+
+        int n = count[0];
+        int m = count[1];
+
+        char[,] map = new char[n,m];
+
+        for (int i = 0; i < n; i++)
         {
-            num = i;
-            sum = num;
-            while(num!=0)
-            { 
-                sum += num % 10;
-                num /= 10;
-            }
-            if (sum.Equals(intInput))
-            {
-                WriteLine(i);
-                return;
-            }
-                
+            //map[n] = ReadLine().ToCharArray();
         }
 
-        WriteLine(0);
+        for (int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+
+            }
+        }
     }
+
+    
+    
     static void Main(string[] args)
     {
         Program program = new Program();
