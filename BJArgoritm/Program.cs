@@ -1,77 +1,61 @@
 ﻿using System;
-using static System.Console;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.Versioning;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
+using static System.Console;
 
 class Program
 {
-    char ChangeFloor(char _toChange, ref int _count)
+    void PartSort(List<int> _nums, int _left, int _high, int _pivot)
     {
-        _count++;
-        if (_toChange.Equals('W'))
-            return 'B';
-        else
-            return 'W';
+        while (true)
+        {
+            if (_nums[_left] >= _nums[_high])
+            {
+                int tmp = _nums[_left];
+                _nums[_left] = _nums[_high];
+                _nums[_high] = tmp;
+            }
+            else
+            {
+
+            }
+            _left++; _high--;
+            if (_left >= _high)
+                break;
+        }
+        List<int> lefList = new List<int>();
+        //_nums.CopyTo()
     }
 
     void Solution()
     {
-        int[] count = ReadLine().Split(' ').Select(a => int.Parse(a)).ToArray();
+        int pivot;
+        int left, right, low, high;
 
-        int n = count[0];
-        int m = count[1];
+        int count = int.Parse(ReadLine());
 
-        int cntW = 0;
-        int cntB = 0;
+        List<int> a = new List<int>();
 
-        char[][] map = new char[n][];
-
-        for (int i = 0; i < n; i++)
+        List<int> nums = new List<int>();
+        
+        for(int i=0; i<count; i++)
         {
-            map[i] = ReadLine().ToCharArray();
+            nums.Add(int.Parse(ReadLine()));
         }
 
-        for (int i=0; i<n; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
-                if(((j+i)%2).Equals(0))
-                {
-                    if(map[i][j].Equals('W'))
-                    {
-                        cntW++;
-                    }
-                    else if (map[i][j].Equals('B'))
-                    {
-                        cntB++;
-                    }
+        pivot = 0;
 
-                }
-                else if(((j+i) % 2).Equals(1))
-                {
-                    if (map[i][j].Equals('B'))
-                    {
-                        cntW++;
-                    }
-                    else if(map[i][j].Equals('W'))
-                    {
-                        cntB++;
-                    }
-                }
-            }
-        }
-        if (cntW >= cntB)
-            Write(cntB);
-        else
-            Write(cntW);
+        left = 0;
+
+        right = nums.Count;
+
+        low = left+1;
+
+        high = right;
+
+        PartSort(nums, left, high, pivot);
+
     }
 
-    
-    
     static void Main(string[] args)
     {
         Program program = new Program();
