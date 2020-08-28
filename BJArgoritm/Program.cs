@@ -1,90 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using static System.Console;
 
 class Program
 {
-    void PartSort(List<int> _nums, int _left, int _right)
+    public void PartSort(int[] _arr, int _left, int _right)
     {
-        if(_left<_right)
+        if (_left < _right)
         {
-            int pivot = _nums[(_left + _right) / 2];
-            int high = _right;
-            int low = _left;
             int tmp;
-
+            int low = _left;
+            int high = _right;
+            int pivot = _arr[(_left + _right) / 2];
             while (low < high)
             {
-                while (_nums[low] < pivot && low < high)
-                    low++;
-                while (_nums[high] > pivot && high > low)
-                    high--;
+                while (_arr[low] < pivot) low++;
+                while (_arr[high] > pivot && low < high) high--;
 
-                tmp = _nums[low];
-                _nums[low] = _nums[high];
-                _nums[high] = tmp;
+                tmp = _arr[low];
+                _arr[low] = _arr[high];
+                _arr[high] = tmp;
             }
 
-            PartSort(_nums, _left, high - 1);
-            PartSort(_nums, high + 1, _right);
-
-        }
-
-    }
-
-    public void quickSort(List<int> arr, int left, int right)
-    {
-        int i, j, pivot, tmp;
-        if (left < right)
-        {
-            i = left; j = right;
-            pivot = arr[(left + right) / 2];
-            //분할 과정
-            while (i < j)
-            {
-                while (arr[j] > pivot) j--;
-                // 이 부분에서 arr[j-1]에 접근해서 익셉션 발생가능함.
-                while (i < j && arr[i] < pivot) i++;
-
-                tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
-            }
-            //정렬 과정
-            quickSort(arr, left, i - 1);
-            quickSort(arr, i + 1, right);
+            PartSort(_arr, _left, high - 1);
+            PartSort(_arr, high + 1, _right);
         }
     }
+
 
     void Solution()
     {
-        int left, right, low, high;
+        int left, right;
 
         int count = int.Parse(ReadLine());
 
-        List<int> nums = new List<int>();
-        
+        int[] nums = new int[count];
+
+        StringBuilder sb = new StringBuilder();
+
         for(int i=0; i<count; i++)
         {
-            nums.Add(int.Parse(ReadLine()));
+            nums[i] = int.Parse(ReadLine());
         }
 
         left = 0;
 
-        right = nums.Count-1;
-
-        low = left+1;
-
-        high = right;
+        right = nums.Length-1;
 
         PartSort(nums, left, right);
 
-        for (int i = 0; i < nums.Count; i++)
+        for (int i = 0; i < nums.Length; i++)
         {
-            Write(nums[i]);
+            sb.AppendFormat("{0}\n",nums[i]);
         }
-        ReadLine();
+
+        Write(sb);
     }
 
     static void Main(string[] args)
