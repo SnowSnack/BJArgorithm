@@ -1,55 +1,63 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static System.Console;
 using System.Text;
 class Program
 {
-    public int[] CountSort(int[] _arr)
-    {
-        int[] sum = Enumerable.Repeat(0,_arr.Max()+1).ToArray();
-        int[] cumulSum = new int[_arr.Max()+1];
-        int[] toReturn = new int[_arr.Length];
-        for (int i=1; i<_arr.Length; i++)
-        {
-            sum[_arr[i]]++;
-        }
-
-        cumulSum[0] = sum[0];
-        for(int i=1; i<=_arr.Max(); i++)
-        {
-            cumulSum[i] = cumulSum[i-1]+ sum[i];
-        }
-        for (int i = _arr.Length-1; i >= 1; i--)
-        {
-            toReturn[cumulSum[_arr[i]]] = _arr[i];
-            cumulSum[_arr[i]]--;
-        }
-
-        WriteLine();
-
-        return toReturn;
-    }
+    
 
     void Solution()
     {
         int cnt = int.Parse(ReadLine());
 
-        StringBuilder sb = new StringBuilder();
-        int[] arr = new int[cnt+1];
-        for (int i = 1; i <= cnt; i++)
+        int[] nums = new int[cnt];
+        int[] oftens;
+        int often;
+        int sum = 0;
+
+
+        for (int i = 0; i < cnt; i++)
         {
-            arr[i] = int.Parse(ReadLine());
+            nums[i] = int.Parse(ReadLine());
+            sum += nums[i];
         }
 
-        int[] answers =  CountSort(arr);
+        Array.Sort(nums);
+        int Arith = sum / cnt;
+        int middleVa = nums[cnt / 2];
+        int range = nums[cnt - 1] - nums[0];
+        oftens = new int[nums[cnt - 1]];
 
-        for(int i=1; i<answers.Length; i++)
+        for (int i = 0; i < cnt; i++)
         {
-            if(!answers[i].Equals(0))
-                sb.AppendFormat("{0}\n",
-            answers[i]);
+            if (nums[i].Equals(0))
+            {
+                oftens[0]++;
+            }
+            else
+            {
+                break;
+            }
         }
-        Write(sb);
+
+        for (int i=1; i<nums[cnt-1]; i++)
+        {
+            for(int j=oftens[i-1]-1; j<cnt; j++)
+            {
+                if(nums[j].Equals(i))
+                {
+                    oftens[i]++;
+                }
+                else 
+                { 
+                    break;
+                }
+            }
+        }
+
+        
+
     }
 
     static void Main(string[] args)
