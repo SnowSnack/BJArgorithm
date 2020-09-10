@@ -82,13 +82,42 @@ class Program
 
         Partition(ref oftenArr, 0, oftenArr.Length);
 
-        //for (int i = 0; i < oftens.Count; i++)
-        //{
-        //    Write("{0} , {1}\n", oftenArr[i].Key, oftenArr[i].Value);
-        //}
-        int ofLen = oftenArr.Length;
+        for (int i = 0; i < oftens.Count; i++)
+        {
+            Write("{0} , {1}\n", oftenArr[i].Key, oftenArr[i].Value);
+        }
 
-        int index = ofLen-1;
+        int oftLen = oftenArr.Length;
+        int index = oftLen-1;
+        int beforeIndex = oftLen - 2;
+        bool beforeEqual =false;
+
+        if(index>1)
+        {
+            while (true)
+            {
+                if (oftenArr[index].Value.Equals(oftenArr[beforeIndex].Value))
+                {
+                    index--;
+                    beforeIndex--;
+                    beforeEqual = true;
+                }
+                else
+                {
+                    //앞과 다름
+                    if (beforeEqual)
+                        index++;
+                    break;
+                }
+
+                if (!(index > 1))
+                {
+                    //앞과 같음
+                    break;
+                }
+            }
+        }
+        
         //보완필요(앞에서 두번쨰 검출)
         
         Write("{0}\n{1}\n{2}\n{3}", arith, middleVal, oftenArr[index].Key, range);
