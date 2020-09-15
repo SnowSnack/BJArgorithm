@@ -7,25 +7,29 @@ class Program
 {
     public void merge(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
     {
-        KeyValuePair<int,int>[] arr = new KeyValuePair<int, int>[_right+1];
+        KeyValuePair<int,int>[] arr = new KeyValuePair<int, int>[_right];
         int mid = (_left + _right) / 2;
 
-        int i = _left;
-        int j = mid + 1;
-        int index = _left;
+        int lIndex = _left;  //왼쪽 시작 인덱스
+        int rIndex = mid;//오른쪽 시작 인덱스
+        int tmp = _left;
 
-        while(i<=mid&&j<_right)
+        while(lIndex<mid&&rIndex<_right)
         {
-            if (_arr[i].Value <= _arr[j].Value)
-                arr[index++] = _arr[i++];
+            if (_arr[lIndex].Value < _arr[rIndex].Value)
+                arr[tmp++] = _arr[lIndex++];
             else
-                arr[index++] = _arr[j++];  
+                arr[tmp++] = _arr[rIndex++];  
         }
 
-        int tmp = i > mid ? j : i;
+        int remainIndex = lIndex > mid ? rIndex : lIndex;
         
-        while (index < _right)
-            arr[index++] = _arr[tmp++];
+        while (tmp < _right)
+            arr[tmp++] = _arr[remainIndex++];
+
+        Write(_left +" "+ _right+" : \n");
+        for(int i=_left;i<_right;i++)
+            WriteLine(arr[i]);
 
         for (int k = _left; k < _right; k++)
             _arr[k] = arr[k];
@@ -60,11 +64,7 @@ class Program
 
         Array.Sort(nums);
 
-        int tmp=0;
-        if ((cnt % 2).Equals(0))
-            tmp = 1;
-
-        int arith = sum / cnt+tmp;
+        int arith = (int)Math.Round((double)sum / cnt);
         int middleVal = nums[cnt / 2];
         int range = nums[cnt - 1] - nums[0];
         numMax = nums[nums.Length - 1];
@@ -75,29 +75,29 @@ class Program
                 oftens.Add(nums[i], 1);
             else
                 oftens[nums[i]]++;
-            //Write("{0} {1}\n", nums[i], oftens[nums[i]]);
         }
 
         KeyValuePair<int,int>[] oftenArr = oftens.ToArray();
 
         Partition(ref oftenArr, 0, oftenArr.Length);
 
-        for (int i = 0; i < oftens.Count; i++)
-        {
-            Write("{0} , {1}\n", oftenArr[i].Key, oftenArr[i].Value);
-        }
-
         int oftLen = oftenArr.Length;
         int index = oftLen-1;
         int beforeIndex = oftLen - 2;
         bool beforeEqual =false;
 
-        if(index>1)
+
+        if (index>1)
         {
             while (true)
             {
                 if (oftenArr[index].Value.Equals(oftenArr[beforeIndex].Value))
                 {
+                    if (!(index > 1))
+                    {
+                        //[0]과 같음
+                        break;
+                    }
                     index--;
                     beforeIndex--;
                     beforeEqual = true;
@@ -109,18 +109,17 @@ class Program
                         index++;
                     break;
                 }
-
-                if (!(index > 1))
-                {
-                    //앞과 같음
-                    break;
-                }
             }
         }
-        
+
+        for (int i = 0; i < oftens.Count; i++)
+        {
+            WriteLine("{0} {1}", oftenArr[i].Key, oftenArr[i].Value);
+        }
+
         //보완필요(앞에서 두번쨰 검출)
-        
-        Write("{0}\n{1}\n{2}\n{3}", arith, middleVal, oftenArr[index].Key, range);
+
+        Write("{0}\n{1}\n{2}\n{3}\n", arith, middleVal, oftenArr[index].Key, range);
     }
 
     static void Main(string[] args)
