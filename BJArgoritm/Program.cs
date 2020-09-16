@@ -5,46 +5,115 @@ using static System.Console;
 using System.Text;
 class Program
 {
-    public void merge(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    public void MergeValue(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
     {
-        KeyValuePair<int,int>[] arr = new KeyValuePair<int, int>[_right];
+        int lIndex = _left;
         int mid = (_left + _right) / 2;
+        int rIndex = mid;
+        int tmpIndex = _left;
 
-        int lIndex = _left;  //왼쪽 시작 인덱스
-        int rIndex = mid;//오른쪽 시작 인덱스
-        int tmp = _left;
-
+        KeyValuePair<int, int>[] newArr = new KeyValuePair<int, int>[_right];
         while(lIndex<mid&&rIndex<_right)
         {
-            if (_arr[lIndex].Value < _arr[rIndex].Value)
-                arr[tmp++] = _arr[lIndex++];
+            if(_arr[lIndex].Value < _arr[rIndex].Value)
+            {
+                newArr[tmpIndex++] = _arr[lIndex++];
+            }
             else
-                arr[tmp++] = _arr[rIndex++];  
+            {
+                newArr[tmpIndex++] = _arr[rIndex++];
+            }
         }
 
-        int remainIndex = lIndex > mid ? rIndex : lIndex;
-        
-        while (tmp < _right)
-            arr[tmp++] = _arr[remainIndex++];
+        int remainIndex = lIndex < mid ? lIndex : rIndex;
 
-        Write(_left +" "+ _right+" : \n");
-        for(int i=_left;i<_right;i++)
-            WriteLine(arr[i]);
+        while(tmpIndex<_right)
+        {
+            newArr[tmpIndex++] = _arr[remainIndex++];
+        }
 
-        for (int k = _left; k < _right; k++)
-            _arr[k] = arr[k];
+        for(int i=_left;i<_right; i++)
+        {
+            _arr[i] = newArr[i];
+        }
+
+    }
+    public void DivideValue(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    {
+        int mid = (_left + _right) / 2;
+        if(_left<_right)
+        {
+            DivideValue(ref _arr, _left, mid);
+            DivideValue(ref _arr, mid + 1, _right);
+            MergeValue(ref _arr, _left, _right);
+        }
     }
 
-    public void Partition(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    public void ValueMergeSort(ref KeyValuePair<int,int>[] _arr, int _left, int _right)
     {
-        int mid;
-        if(_left < _right)
+        DivideValue(ref _arr, _left, _right);
+        int i = 0;
+        while(i+1<_right&&_arr[i].Value.Equals(_arr[i+1].Value))
         {
-            mid = (_left + _right) / 2;
-            Partition(ref _arr, _left, mid);
-            Partition(ref _arr, mid+1, _right);
-            merge(ref _arr, _left, _right);
+            i++;
         }
+        KeyDivide(ref _arr, _left, i);
+
+        for(i=0; i<_right; i++)
+        {
+            WriteLine(i + " " + _arr[i]);
+        }
+    }
+
+    public void KeyDivide(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    {
+        int mid = (_left + _right) / 2;
+        if (_left < _right)
+        {
+            KeyDivide(ref _arr, _left, mid);
+            KeyDivide(ref _arr, mid + 1, _right);
+            KeyMerge(ref _arr, _left, _right);
+        }
+    }
+
+    public void KeyMerge(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    {
+        int lIndex = _left;
+        int mid = (_left + _right) / 2;
+        int rIndex = mid;
+        int tmpIndex = _left;
+
+        KeyValuePair<int, int>[] newArr = new KeyValuePair<int, int>[_right];
+        while (lIndex < mid && rIndex < _right)
+        {
+            if (_arr[lIndex].Key < _arr[rIndex].Key)
+            {
+                newArr[tmpIndex++] = _arr[lIndex++];
+            }
+            else
+            {
+                newArr[tmpIndex++] = _arr[rIndex++];
+            }
+        }
+
+        int remainIndex = lIndex < mid ? lIndex : rIndex;
+
+        while (tmpIndex < _right)
+        {
+            newArr[tmpIndex++] = _arr[remainIndex++];
+        }
+
+        for (int i = _left; i < _right; i++)
+        {
+            WriteLine(i +" "+newArr[i]);
+            _arr[i] = newArr[i];
+        }
+        WriteLine();
+    }
+
+    public void KeyMergeSort(ref KeyValuePair<int, int>[] _arr, int _left, int _right)
+    {
+        KeyDivide(ref _arr, _left, _right);
     }
 
     void Solution()
@@ -79,7 +148,7 @@ class Program
 
         KeyValuePair<int,int>[] oftenArr = oftens.ToArray();
 
-        Partition(ref oftenArr, 0, oftenArr.Length);
+        ValueMergeSort(ref oftenArr, 0, oftenArr.Length);
 
         int oftLen = oftenArr.Length;
         int index = oftLen-1;
@@ -112,10 +181,10 @@ class Program
             }
         }
 
-        for (int i = 0; i < oftens.Count; i++)
-        {
-            WriteLine("{0} {1}", oftenArr[i].Key, oftenArr[i].Value);
-        }
+        //for (int i = 0; i < oftens.Count; i++)
+        //{
+        //    WriteLine("{0} {1}", oftenArr[i].Key, oftenArr[i].Value);
+        //}
 
         //보완필요(앞에서 두번쨰 검출)
 
