@@ -2,153 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using static System.Console;
-using System.Text;
 class Program
 {
-    public void MergeForValue( KeyValuePair<int, int>[] _arr, int _left, int _right)
+    static void Swap(int[,] _arr, int beforeIndex, int foreIndex)
     {
-        KeyValuePair<int,int>[] newArr = new KeyValuePair<int, int>[_right];
-        int mid = (_left + _right) / 2;
-        int lIndex = _left;
-        int rIndex = mid;
-        int index=_left;
-        while(lIndex<=mid&&rIndex<_right)
-        {
-            if(_arr[lIndex].Value < _arr[rIndex].Value)
-            {
-                newArr[index++] = _arr[lIndex++];
-            }
-            else
-            {
-                newArr[index++] = _arr[rIndex++];
-            }
-        }
-
-        int remainIndex = lIndex <= mid ? lIndex : rIndex;
-
-        for(int i=remainIndex; i<_right; i++)
-        {
-            newArr[i] = _arr[i];
-        }
-
-        for(int i=_left; i<_right; i++)
-        {
-            _arr[i] = newArr[i];
-        }
+        var tmp = _arr[beforeIndex, 0];
+        var tmp2 = _arr[beforeIndex, 1];
+        _arr[beforeIndex, 0] = _arr[foreIndex, 0];
+        _arr[beforeIndex, 1] = _arr[foreIndex, 1];
+        _arr[foreIndex, 0] = tmp;
+        _arr[foreIndex, 1] = tmp;
     }
 
-    public void MergeForKey( KeyValuePair<int, int>[] _arr, int _left, int _right)
+    public int Partition(int[,] _arr, int _left, int _right)
     {
-        KeyValuePair<int, int>[] newArr = new KeyValuePair<int, int>[_right];
-        int mid = (_left + _right) / 2;
-        int lIndex = _left;
-        int rIndex = mid;
-        int index = _left;
-        while (lIndex <= mid && rIndex < _right)
-        {
-            if (_arr[lIndex].Key < _arr[rIndex].Key)
-            {
-                newArr[index++] = _arr[lIndex++];
-            }
-            else
-            {
-                newArr[index++] = _arr[rIndex++];
-            }
-        }
-
-        int remainIndex = lIndex <= mid ? lIndex : rIndex;
-
-        for (int i = remainIndex; i < _right; i++)
-        {
-            newArr[i] = _arr[i];
-        }
-
+        int pivot = _left;
         for (int i = _left; i < _right; i++)
         {
-            _arr[i] = newArr[i];
-        }
-    }
-
-    public void Divide( KeyValuePair<int, int>[] _arr, int _left, int _right)
-    {
-        if(_left < _right)
-        {
-            int mid = (_left + _right) / 2;
-            Divide( _arr, _left, mid);
-            Divide( _arr, mid+1, _right);
-            MergeForValue( _arr, _left, _right);
-            
-        }
-    }
-
-    public int Mode( KeyValuePair<int, int>[] _arr, int _left, int _right)
-    {
-        Divide( _arr, _left, _right);
-
-        int modeIndex = 1;
-        if(_right>1)//배열크기가 0일때(i+1)이 성립되지않음
-        {
-            for (int i = _right - 1; i > 0; i--)
+            if (_arr[i,0] <= _arr[_right,0])
             {
-                if (!_arr[i].Value.Equals(_arr[i - 1].Value))
-                {
-                    if (i.Equals(_right - 1))//제일오른쪽이 최빈값일떄
-                        modeIndex = i;
-                    else
-                        modeIndex = i + 1;
-                    break;
-                }
+                Swap(_arr, pivot, i);
+                pivot++;
             }
         }
-        else//배열크기가 0일때(i+1)이 성립되지않음
+        Swap(_arr, pivot, _right);
+        return pivot;
+    }
+
+    public void QuickSort(int[,] _arr, int _left, int _right)
+    {
+        if (_left < _right)
         {
-            modeIndex = 0;
+            int pivot = Partition(_arr, _left, _right);
+            QuickSort(_arr, _left, pivot - 1);
+            QuickSort(_arr, pivot + 1, _right);
         }
-        return _arr[modeIndex].Key;
     }
 
     void Solution()
     {
         int cnt = int.Parse(ReadLine());
 
-        int[] nums = new int[cnt];
-        int mode;
-        Dictionary<int, int> oftens = new Dictionary<int, int>();
-        int sum = 0;
-        int numMax;
+        int[,] pairs = new int[cnt,2];
 
-        for (int i = 0; i < cnt; i++)
+        for(int i=0; i<cnt; i++)
         {
-            nums[i] = int.Parse(ReadLine());
-            sum += nums[i];
+            int[] arr = ReadLine().Split(' ').Select(a=>int.Parse(a)).ToArray();
+            pairs[i, 0] = arr[0];
+            pairs[i, 1] = arr[1];
         }
 
-        Array.Sort(nums);
+        QuickSort(pairs, 0, cnt-1);
 
-        //숫자 받고 1차 정렬
-
-        int arith = (int) Math.Round((double) sum / cnt);
-        int middleVal = nums[cnt / 2];
-        int range = nums[cnt - 1] - nums[0];
-
-        numMax = nums[nums.Length - 1];
-
-        for(int i=0; i<nums.Length; i++)
+        for(int i=0; i<cnt; i++)
         {
-            if (!oftens.ContainsKey(nums[i]))
-                oftens.Add(nums[i], 1);
-            else
-                oftens[nums[i]]++;
+            WriteLine("{0} {1}", pairs[i, 0], pairs[i, 1]);
         }
-
-        KeyValuePair<int,int>[] oftenArr = oftens.ToArray();
-
-        mode = Mode(oftenArr, 0, oftenArr.Length);
-
-        int oftLen = oftenArr.Length;
-        int index = oftLen-1;
-
-        Write("{0}\n{1}\n{2}\n{3}\n", arith, middleVal, mode, range);
     }
 
     static void Main(string[] args)
