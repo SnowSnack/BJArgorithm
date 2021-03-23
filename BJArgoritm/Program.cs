@@ -1,124 +1,105 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using System.Linq;
-using System.Collections.Generic;
+using System.Text;
+using System.IO;
 
 class Program
 {
-    public static void dfs2(bool[,] _array, bool[] _visited, int _startVertex,int _len, StringBuilder _sb)
+    int[] sorted;
+    public void merge(int[] _list, int _left, int _mid, int _right)
     {
-        _visited[_startVertex] = true;
-        _sb.Append(_startVertex + " ");
-        for (int i = 1; i < _len; i++)
+        Console.WriteLine(_left + " " + _mid + " " + _right);
+        int l = _left;
+        int r = _mid + 1;
+        int tmp = _left;
+
+        Console.WriteLine(l + " " + r);
+
+        while (l <= _mid && r <= _right)
         {
-            if (_array[_startVertex,i].Equals(true) && !_visited[i])
+            if (_list[l] > _list[r])
             {
-                dfs2(_array, _visited, i,_len, _sb);
+                sorted[tmp++] = _list[r++];
+                sorted[tmp] = _list[r - 2];
             }
+            else
+            {
+                sorted[tmp++] = _list[l++];
+            }
+            Console.WriteLine("tmp : " + (tmp - 1));
+        }
+
+        Console.WriteLine(tmp + "" + _mid);
+
+        if(tmp>=_mid)
+        {
+            for(int i=r-1; i<_right; i++)
+            {
+                sorted[i] = _list[tmp++];
+                Console.WriteLine("i:" + i);
+            }
+            Console.WriteLine(1111);
+        }
+        else
+        {
+            for(int i=l; i<=_left; i++)
+            {
+                sorted[i] = _list[tmp++];
+                Console.WriteLine("i:" + i);
+            }
+            Console.WriteLine(2222);
+        }
+
+        for(int i= _left; i<=_right; i++)
+        {
+            _list[i] = sorted[i];
+            Console.WriteLine("final i:" + i);
+        }
+        Console.WriteLine("Sorted : " + sorted[0] + " " + sorted[1] + " " +sorted[2]+ " " + sorted[3] + " " + sorted[4]);
+    }
+
+    public void mergeSort( int[] _list, int _left, int _right)
+    {
+        if (_left<_right)
+        {
+            int mid = (_left + _right) / 2;
+            mergeSort( _list, _left, mid);
+            mergeSort( _list, mid+1, _right);
+            merge( _list, _left, mid, _right);
         }
     }
 
-    public static void dfs(bool[,] _array, bool[] _visited, int _startVertex, int _len, bool _flag, StringBuilder _sb)
+    public void Solution()
     {
-        Stack<int> stack = new Stack<int>();
-
-        stack.Push(_startVertex);
-        _visited[_startVertex] = true;
-        _sb.Append(_startVertex + " ");
-
-        while (!(stack.Count==0))
+        int count = int.Parse(Console.ReadLine());
+        int[] inputs = new int[count];
+        for (int i = 0; i < count; i++)
         {
-            int root = stack.Peek();
-            _flag = false;
-
-            for (int i = 1; i < _len; i++)
-            {
-                if (_array[root,i].Equals(true) && !_visited[i])
-                {
-                    _sb.AppendFormat("{0} {1} {2}",root, i,_array[root,i]);
-                    stack.Push(i);
-                    _sb.Append(i + " ");
-                    _visited[i] = true;
-                    _flag = true;
-                    break;
-                }
-            }
-            
-            if (!_flag)
-            {
-                stack.Pop();
-            }
+            inputs[i] = int.Parse(Console.ReadLine());
         }
-    }
 
-    public void MyDFS(ref int _len, StringBuilder _sb)
-    {
-            
-    }
+        sorted = inputs;
 
-    public void Solution(int _num,int _cnt, int _prevNum, StringBuilder _sb)
-    {
-        if(_cnt>=0)
+        StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+        StringBuilder sb = new StringBuilder();
+
+        mergeSort( inputs, 0, inputs.Length-1);
+
+        for(int i=0; i<inputs.Length; i++)
         {
-            for (int i = 1; i < _num + 1; i++)
-            {
-                Solution(_num, _cnt - 1, i, _sb);
-
-                if (_prevNum.Equals(-1))
-                {
-
-                }
-                else if (_prevNum.Equals(i))
-                {
-                    return;
-                }
-                else
-                {
-                    if (_cnt.Equals(0))
-                        _sb.AppendFormat("{0} {1}\n", _prevNum, i);
-                    _sb.AppendFormat("{0} ", _prevNum);
-                }
-            }
+            sb.Append(inputs[i]);
+            sb.AppendLine();
         }
+
+        sb.Length--;
+        sw.WriteLine(sb);
+        sb.Clear();
+        sw.Close();
     }
 
     static void Main(string[] args)
     {
-        StringBuilder sb = new StringBuilder();
-        BufferedStream bsI = new BufferedStream(Console.OpenStandardInput());
-        StreamReader sr = new StreamReader(bsI);
-        BufferedStream bsO = new BufferedStream(Console.OpenStandardOutput());
-        StreamWriter sw = new StreamWriter(bsO);
-
-        sw.AutoFlush = true;
-        Console.SetOut(sw);
-
-        int[] inputs = sr.ReadLine().Split().Select(a => int.Parse(a)).ToArray();
-        //int first = 10, s = 7;
-        int toLength = 0;
-        
-        //int[] toOutput = new int[first];
-
-        //for(int i=0; i<first; i++)
-        //{
-        //    toOutput[i] = 0;
-        //}
-
-        //bool[] b = new bool[first];
-        bool flag = false;
-        //dfs2(toOutput, b, 1, first, sb);
-        
-        
-
-        Program pg = new Program();
-        for(int i=0; i<inputs[0]; i++)
-        {
-            pg.MyDFS(ref toLength, sb);
-        }
-        
-        //pg.Solution(inputs[0], inputs[1], -1, sb);
-
-        sw.Write(sb);
+        Program p = new Program();
+        p.Solution();
     }
 }
