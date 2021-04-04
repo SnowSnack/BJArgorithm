@@ -2,42 +2,38 @@
 using System.Linq;
 using System.Text;
 using System.IO;
-
 class Program
 {
-    int max, cnt;
-    bool[] fVisited;
-    bool[] visited;
-    int[] nums;
+    int[] board;
+    int cnt;
+    int len;
     StringBuilder sb;
-    public void dfs(int _level)
+    public void Queen(int _qCnt)
     {
-        if (_level.Equals(cnt))
+        bool possible;
+        if (_qCnt.Equals(len))
         {
-            for (int i = 0; i < cnt; i++)
-            {
-                sb.Append(nums[i]);
-                sb.Append(' ');
-            }
-            sb.Append('\n');
+            cnt++;
+            return;
         }
         else
         {
-            for (int i = 1; i <= max; i++)
+            for (int hrzt = 0; hrzt < len; hrzt++)
             {
-                if (visited[i])
+                possible = true;
+                for (int vtc = 0; vtc < _qCnt; vtc++)
                 {
-                    continue;
+                    if (vtc.Equals(hrzt) || (Math.Abs(_qCnt - vtc)).Equals(Math.Abs(hrzt - board[vtc])))
+                    {
+                        possible = false;
+                        break;
+                    }
                 }
-                //Console.WriteLine("level = " + _level + ", cnt-1 = " + (cnt-1));
-                //if(_level.Equals(cnt-1))
-                //    Console.WriteLine("nums["+ _level +"] = " + nums[_level] + '\n'+ "nums[0] = " + nums[0] + '\n'+ nums[_level].Equals(nums[0]) + '\n' + '\n');
-                
-                if (i.Equals(nums[_level-1]))
-                    visited[i] = true;
-
-                nums[_level] = i;
-                dfs(_level + 1);
+                if (possible)
+                {
+                    board[_qCnt] = hrzt;
+                    Queen(_qCnt+1);
+                }
             }
         }
     }
@@ -48,30 +44,19 @@ class Program
         StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
         sb = new StringBuilder();
 
-        int[] inputs = sr.ReadLine().Split().Select(x => int.Parse(x)).ToArray();
-        max = inputs[0];
-        cnt = inputs[1];
+        len = int.Parse(sr.ReadLine());
 
-        fVisited = new bool[max + 1];
-        visited= new bool[max + 1];
-        nums= new int[cnt];
+        cnt = 0;
+        board = new int [len];
 
-        for(int i=1; i<=max; i++)
-        {
-            visited = new bool [max+1];
-            for(int j=0; j<i; j++)
-            {
-                visited[j] = true;
-            }
-            nums[0] = i;
-            dfs(1);
-        }
+        Queen(0);
+
+        sb.Append(cnt);
 
         sw.WriteLine(sb.ToString());
         sw.Close();
         sr.Close();
         sb.Clear();
-
     }
 
     static void Main(string[] args)
