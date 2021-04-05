@@ -4,39 +4,40 @@ using System.Text;
 using System.IO;
 class Program
 {
-    int[] board;
     int cnt;
-    int len;
+    int[] board;
     StringBuilder sb;
-    public void Queen(int _qCnt)
+
+    public void Queen(int _qCnt, int _bMax)
     {
         bool possible;
-        if (_qCnt.Equals(len))
+        if(_qCnt.Equals(_bMax))
         {
             cnt++;
             return;
         }
         else
         {
-            for (int hrzt = 0; hrzt < len; hrzt++)
+            for(int hrzt = 0; hrzt<_bMax; hrzt++)
             {
                 possible = true;
-                for (int vtc = 0; vtc < _qCnt; vtc++)
+                for(int vtc = 0; vtc<_qCnt; vtc++)
                 {
-                    if (vtc.Equals(hrzt) || (Math.Abs(_qCnt - vtc)).Equals(Math.Abs(hrzt - board[vtc])))
+                    if (board[vtc].Equals(hrzt) || Math.Abs(_qCnt - vtc).Equals(Math.Abs(hrzt - board[vtc])))
                     {
                         possible = false;
                         break;
                     }
                 }
-                if (possible)
+                if(possible)
                 {
                     board[_qCnt] = hrzt;
-                    Queen(_qCnt+1);
+                    Queen(_qCnt + 1, _bMax);
                 }
             }
         }
     }
+
 
     public void Solution()
     {
@@ -44,12 +45,11 @@ class Program
         StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
         sb = new StringBuilder();
 
-        len = int.Parse(sr.ReadLine());
-
+        int boardMax = int.Parse(sr.ReadLine());
+        board = new int[boardMax];
         cnt = 0;
-        board = new int [len];
 
-        Queen(0);
+        Queen(0, boardMax);
 
         sb.Append(cnt);
 
