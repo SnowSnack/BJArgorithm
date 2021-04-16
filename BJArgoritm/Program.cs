@@ -8,6 +8,21 @@ class Program
     int[] board;
     StringBuilder sb;
 
+    public void Set(bool _toSet, int y, int x, int l)
+    {
+
+    }
+
+    public bool DigonalCheck(int _yDiffer, int _xDiffer)
+    {
+        return Math.Abs(_yDiffer).Equals(Math.Abs(_xDiffer));
+    }
+
+    public bool YCheck(int _px, int _cx)
+    {
+        return _px.Equals(_cx);
+    }
+
     public void Queen(int _qCnt, int _bMax)
     {
         bool possible;
@@ -23,7 +38,7 @@ class Program
                 possible = true;
                 for(int vtc = 0; vtc<_qCnt; vtc++)
                 {
-                    if (board[vtc].Equals(hrzt) || Math.Abs(_qCnt - vtc).Equals(Math.Abs(hrzt - board[vtc])))
+                    if (YCheck(board[vtc], hrzt) || DigonalCheck(_qCnt - vtc,hrzt - board[vtc]))
                     {
                         possible = false;
                         break;
