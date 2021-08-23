@@ -5,54 +5,7 @@ using System.IO;
 class Program
 {
     int cnt;
-    int[] board;
     StringBuilder sb;
-
-    public void Set(bool _toSet, int y, int x, int l)
-    {
-
-    }
-
-    public bool DigonalCheck(int _yDiffer, int _xDiffer)
-    {
-        return Math.Abs(_yDiffer).Equals(Math.Abs(_xDiffer));
-    }
-
-    public bool YCheck(int _px, int _cx)
-    {
-        return _px.Equals(_cx);
-    }
-
-    public void Queen(int _qCnt, int _bMax)
-    {
-        bool possible;
-        if(_qCnt.Equals(_bMax))
-        {
-            cnt++;
-            return;
-        }
-        else
-        {
-            for(int hrzt = 0; hrzt<_bMax; hrzt++)
-            {
-                possible = true;
-                for(int vtc = 0; vtc<_qCnt; vtc++)
-                {
-                    if (YCheck(board[vtc], hrzt) || DigonalCheck(_qCnt - vtc,hrzt - board[vtc]))
-                    {
-                        possible = false;
-                        break;
-                    }
-                }
-                if(possible)
-                {
-                    board[_qCnt] = hrzt;
-                    Queen(_qCnt + 1, _bMax);
-                }
-            }
-        }
-    }
-
 
     public void Solution()
     {
@@ -60,13 +13,23 @@ class Program
         StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
         sb = new StringBuilder();
 
-        int boardMax = int.Parse(sr.ReadLine());
-        board = new int[boardMax];
-        cnt = 0;
+        cnt = int.Parse(sr.ReadLine());
+        int[] nums = new int[cnt];
+        int[] sums = new int[cnt];
 
-        Queen(0, boardMax);
+        nums = sr.ReadLine().Split(' ').Select(a => int.Parse(a)).ToArray();
 
-        sb.Append(cnt);
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sums[i] = 0;
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (nums[i] > nums[j])
+                    sums[i]++;
+            }
+            sb.Append(sums[i] + " ");
+        }
+        sb.AppendLine();
 
         sw.WriteLine(sb.ToString());
         sw.Close();
